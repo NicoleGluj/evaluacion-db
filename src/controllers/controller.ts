@@ -1,9 +1,10 @@
-
+import commands from "../utils/commands"
 
 const main = (accion: string) => {
   switch (accion) {
     case "info":
-      console.log("Buscando informacion...")
+      console.log("-> Comandos validos <-")
+      console.table(commands)
       break;
     case "agregarProducto":
       console.log("Agregando producto...")
