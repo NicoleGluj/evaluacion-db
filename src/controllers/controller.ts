@@ -42,7 +42,23 @@ const main = async (accion: string, argumentos: string[]) => {
       const categoria = argumentos[7]
 
       // VALIDACIONES
+      const pattern = /^[a-zA-Z\s]+$/;
 
+      if (!nombre || !color || !precio || !stock || !categoria) {
+        console.log("❌ Debe ingresar todos los datos requeridos: nombre, color, precio, stock y categoria")
+        break
+      } else if (!pattern.test(nombre) || !pattern.test(color) || !pattern.test(categoria)) {
+        console.log("❌ El nombre, color o categoria no deben contener numeros o caracteres especiales")
+        break
+      } else if (Number(precio) <= 0) {
+        console.log("❌ El precio debe ser mayor a cero");
+        break;
+      } else if (Number(stock) < 0) {
+        console.log("❌ El stock debe ser igual o mayor a cero");
+        break;
+      }
+
+      // VERIFICAR SI EXISTE Y PONER EN MAYUS CAMPOS
 
       const newProduct = new Product(
         {
@@ -55,7 +71,7 @@ const main = async (accion: string, argumentos: string[]) => {
       )
       await newProduct.save()
 
-      console.log("Agregando producto...")
+      console.log("Producto agregado exitosamente")
       break;
     case "mostrarProductos":
       console.log("Mostrando productos...")
