@@ -28,6 +28,13 @@ const Product = mongoose.model<IProduct>("Product", ProductSchema)
 const main = async (accion: string, argumentos: string[]) => {
   await connectDB(URI_DB)
 
+  // FUNCION MAYUS PRIMERA
+  function capitalize(str: string): string {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
+
+
   switch (accion) {
     case "info":
       console.log("-> Comandos validos <-")
@@ -57,16 +64,23 @@ const main = async (accion: string, argumentos: string[]) => {
         console.log("❌ El stock debe ser igual o mayor a cero");
         break;
       }
+      // revirar
 
-      // VERIFICAR SI EXISTE Y PONER EN MAYUS CAMPOS
+      // VERIFICAR SI EXISTE
+      const existe = await Product.findOne({ nombre: nombre })
+
+      if (existe) {
+        console.log("❌ El producto ya existe en la base de datos")
+        break
+      }
 
       const newProduct = new Product(
         {
-          nombre,
-          color,
+          nombre: capitalize(nombre.trim()),
+          color: capitalize(color.trim()),
           precio: Number(precio),
           stock: Number(stock),
-          categoria
+          categoria: capitalize(categoria.trim())
         }
       )
       await newProduct.save()
