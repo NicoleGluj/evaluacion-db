@@ -64,10 +64,12 @@ const main = async (accion: string, argumentos: string[]) => {
         console.log("❌ El stock debe ser igual o mayor a cero");
         break;
       }
-      // revirar
+      // revisar
 
       // VERIFICAR SI EXISTE
-      const existe = await Product.findOne({ nombre: nombre })
+      const existe = await Product.findOne({
+        nombre: { $regex: `^${nombre}$`, $options: "i" }
+      });
 
       if (existe) {
         console.log("❌ El producto ya existe en la base de datos")
@@ -100,6 +102,9 @@ const main = async (accion: string, argumentos: string[]) => {
       console.log("Eliminando producto...")
       break;
   }
+
+  process.exit(1)
+
 }
 
 export default main;
