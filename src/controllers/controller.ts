@@ -89,9 +89,12 @@ const main = async (accion: string, argumentos: string[]) => {
 
       console.log("Producto agregado exitosamente")
       break;
+
     case "mostrarProductos":
-      console.log("Mostrando productos...")
+      const listaProductos = await Product.find({})
+      console.log(listaProductos)
       break;
+
     case "buscarProducto":
       console.log("Buscando producto...")
       break;
