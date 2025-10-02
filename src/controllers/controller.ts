@@ -34,7 +34,6 @@ const main = async (accion: string, argumentos: string[]) => {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
-
   switch (accion) {
     case "info":
       console.log("-> Comandos validos <-")
@@ -96,8 +95,22 @@ const main = async (accion: string, argumentos: string[]) => {
       break;
 
     case "buscarProducto":
-      console.log("Buscando producto...")
+      if (!argumentos[3]) {
+        console.log("❌ Debe ingresar el nombre del producto que desea buscar")
+        break
+      }
+
+      const productoEncontrado = await Product.findOne({
+        nombre: new RegExp(`${argumentos[3]}$`, "i")
+      })
+
+      if (!productoEncontrado) {
+        console.log("❌ No se encontro el producto en la base de datos")
+      } else {
+        console.log(productoEncontrado)
+      }
       break;
+
     case "actualizarProducto":
       console.log("Actualizando producto...")
       break;
