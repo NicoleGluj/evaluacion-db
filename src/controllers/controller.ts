@@ -133,7 +133,20 @@ const main = async (accion: string, argumentos: string[]) => {
       break;
 
     case "eliminarProducto":
-      console.log("Eliminando producto...")
+      const argumentoNombre = argumentos[3]
+      const nombreEliminar = capitalize(argumentoNombre)
+
+      if (!nombreEliminar) {
+        console.log("Debe ingresar el nombre del producto para eliminarlo de la base de datos")
+      }
+
+      const eliminarProducto = await Product.findOneAndDelete({ nombre: nombreEliminar })
+
+      if (!eliminarProducto) {
+        console.log("No se encontro el producto a eliminar en la base de datos")
+      } else {
+        console.log("Producto borrado exitosamente")
+      }
       break;
   }
 
