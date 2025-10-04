@@ -148,6 +148,9 @@ const main = async (accion: string, argumentos: string[]) => {
         console.log("Producto borrado exitosamente")
       }
       break;
+    default:
+      console.log("Comando Invalido")
+      break
   }
 
   process.exit(1)
