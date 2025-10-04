@@ -34,6 +34,8 @@ const main = async (accion: string, argumentos: string[]) => {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
+  // DECLARACION DE VARIABLES
+
   switch (accion) {
     case "info":
       console.log("-> Comandos validos <-")
@@ -112,8 +114,24 @@ const main = async (accion: string, argumentos: string[]) => {
       break;
 
     case "actualizarProducto":
-      console.log("Actualizando producto...")
+      const nombreActualizar = argumentos[3]
+      const stockActualizar = argumentos[4]
+
+      // VALIDACION
+      if (!nombreActualizar || !stockActualizar) {
+        console.log("Debe ingresar los datos requeridos: nombre y stock")
+        break
+      }
+
+      const productoAActualizar = await Product.findOneAndUpdate(
+        { nombre: capitalize(nombreActualizar) },
+        { $set: { stock: stockActualizar } },
+        { new: true }
+      )
+
+      console.log(productoAActualizar || "No existe el producto a actualizar")
       break;
+
     case "eliminarProducto":
       console.log("Eliminando producto...")
       break;
