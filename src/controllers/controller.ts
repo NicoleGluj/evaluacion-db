@@ -1,38 +1,14 @@
 import commands from "../utils/commands"
 import connectDB from "../db/connection"
-import mongoose, { Schema } from "mongoose"
+import Product from "../models/Product"
+import capitalize from "../utils/capitalize"
 
 // CONEXION A DB MONGODB
 const URI_DB = "mongodb://localhost:27017/productosDB"
 
-// INTERFACE Y SCHEMA DB
-interface IProduct {
-  nombre: string,
-  color: string,
-  precio: number,
-  stock: number,
-  categoria: string,
-}
-
-const ProductSchema = new Schema<IProduct>({
-  nombre: { type: String },
-  color: { type: String },
-  precio: { type: Number },
-  stock: { type: Number },
-  categoria: { type: String },
-})
-
-const Product = mongoose.model<IProduct>("Product", ProductSchema)
-
 
 const main = async (accion: string, argumentos: string[]) => {
   await connectDB(URI_DB)
-
-  // FUNCION MAYUS PRIMERA
-  function capitalize(str: string): string {
-    if (!str) return "";
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  }
 
   // DECLARACION DE VARIABLES
 
