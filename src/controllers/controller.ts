@@ -1,4 +1,3 @@
-import commands from "../utils/commands"
 import connectDB from "../db/connection"
 import Product from "../models/Product"
 import capitalize from "../utils/capitalize"
@@ -7,7 +6,6 @@ import { showCommands } from "../utils/showTable"
 // CONEXION A DB MONGODB
 const URI_DB = "mongodb://localhost:27017/productosDB"
 
-
 const main = async (accion: string, argumentos: string[]) => {
   await connectDB(URI_DB)
 
@@ -15,7 +13,6 @@ const main = async (accion: string, argumentos: string[]) => {
 
   switch (accion) {
     case "info":
-      console.log("-> Comandos validos <-")
       showCommands()
       break;
 
@@ -41,8 +38,13 @@ const main = async (accion: string, argumentos: string[]) => {
       } else if (Number(stock) < 0) {
         console.log("❌ El stock debe ser igual o mayor a cero");
         break;
+      } else if (isNaN(Number(precio))) {
+        console.log("❌ El precio debe ser un número válido");
+        break;
+      } else if (isNaN(Number(stock))) {
+        console.log("❌ El stock debe ser un número válido");
+        break;
       }
-      // revisar
 
       // VERIFICAR SI EXISTE
       const existe = await Product.findOne({
@@ -96,17 +98,20 @@ const main = async (accion: string, argumentos: string[]) => {
 
       // VALIDACION
       if (!nombreActualizar || !stockActualizar) {
-        console.log("Debe ingresar los datos requeridos: nombre y stock")
+        console.log("❌ Debe ingresar los datos requeridos: nombre y stock")
+        break
+      } else if (Number(stockActualizar) <= 0) {
+        console.log("❌ El stock debe ser mayor o igual a 0")
         break
       }
 
       const productoAActualizar = await Product.findOneAndUpdate(
         { nombre: capitalize(nombreActualizar) },
-        { $set: { stock: stockActualizar } },
+        { $set: { stock: Number(stockActualizar) } },
         { new: true }
       )
 
-      console.log(productoAActualizar || "No existe el producto a actualizar")
+      console.log(productoAActualizar || "❌ No existe el producto a actualizar")
       break;
 
     case "eliminarProducto":
@@ -114,19 +119,20 @@ const main = async (accion: string, argumentos: string[]) => {
       const nombreEliminar = capitalize(argumentoNombre)
 
       if (!nombreEliminar) {
-        console.log("Debe ingresar el nombre del producto para eliminarlo de la base de datos")
+        console.log("❌ Debe ingresar el nombre del producto para eliminarlo de la base de datos")
       }
 
       const eliminarProducto = await Product.findOneAndDelete({ nombre: nombreEliminar })
 
       if (!eliminarProducto) {
-        console.log("No se encontro el producto a eliminar en la base de datos")
+        console.log("❌ No se encontro el producto a eliminar en la base de datos")
       } else {
-        console.log("Producto borrado exitosamente")
+        console.log("✅ Producto borrado exitosamente")
       }
       break;
+
     default:
-      console.log("Comando Invalido")
+      console.log("❌ Comando Invalido")
       break
   }
 
