@@ -2,6 +2,7 @@ import commands from "../utils/commands"
 import connectDB from "../db/connection"
 import Product from "../models/Product"
 import capitalize from "../utils/capitalize"
+import { showCommands } from "../utils/showTable"
 
 // CONEXION A DB MONGODB
 const URI_DB = "mongodb://localhost:27017/productosDB"
@@ -15,7 +16,7 @@ const main = async (accion: string, argumentos: string[]) => {
   switch (accion) {
     case "info":
       console.log("-> Comandos validos <-")
-      console.table(commands)
+      showCommands()
       break;
 
     case "agregarProducto":
