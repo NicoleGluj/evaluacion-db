@@ -20,3 +20,13 @@ ENTIDAD SELECCIONADA
   - precio: Number
   - stock: Number
   - categoría: String
+
+---
+
+**Descripción del proyecto**
+Este proyecto es una herramienta de línea de comandos (CLI) para administrar productos en una base de datos MongoDB. Permite agregar, mostrar, buscar, actualizar y eliminar productos de forma sencilla desde la terminal.
+
+**Instrucciones para ejecutar**
+1. Clonar el repositorio.
+2. Instalar dependencias.
+3. Ejecutar "npm run dev" seguido del comando deseado.
