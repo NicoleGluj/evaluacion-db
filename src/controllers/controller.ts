@@ -1,5 +1,5 @@
 import connectDB from "../db/connection"
-import Product from "../models/Product"
+import Product from "../models/product"
 import capitalize from "../utils/capitalize"
 import { showCommands } from "../utils/showTable"
 
@@ -67,7 +67,7 @@ const main = async (accion: string, argumentos: string[]) => {
       )
       await newProduct.save()
 
-      console.log("Producto agregado exitosamente")
+      console.log("✅ Producto agregado exitosamente")
       break;
 
     case "mostrarProductos":
@@ -122,7 +122,9 @@ const main = async (accion: string, argumentos: string[]) => {
         console.log("❌ Debe ingresar el nombre del producto para eliminarlo de la base de datos")
       }
 
-      const eliminarProducto = await Product.findOneAndDelete({ nombre: nombreEliminar })
+      const productoAEliminar = await Product.findOne({ nombre: nombreEliminar })
+
+      const eliminarProducto = await Product.findByIdAndDelete(productoAEliminar?._id)
 
       if (!eliminarProducto) {
         console.log("❌ No se encontro el producto a eliminar en la base de datos")
